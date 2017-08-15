@@ -32,11 +32,8 @@ function index() {
 	echo "      Files:	${COUNTF}"
 	echo "Unspecified:	${COUNTU}"
 }
-
 index
-
-if [ "$?" -eq "0" ]
-then
+if [ "$?" -eq "0" ]; then
 	exit 0
 else
 	exit 1
