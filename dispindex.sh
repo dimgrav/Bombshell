@@ -6,7 +6,7 @@
 # output:	path contents
 
 function index() {
-	read -p "Directory path: " FILEPATH
+	read -p "Directory path (or q to quit): " FILEPATH
 	echo "CONTENTS"
 	cd $FILEPATH
 	local COUNTF=0
@@ -27,12 +27,16 @@ function index() {
 		((COUNT++))
 	done
 	
-	echo "Total items:	${COUNT}"
-	echo "Directories:	${COUNTD}"
-	echo "      Files:	${COUNTF}"
-	echo "Unspecified:	${COUNTU}"
+	echo "Total items: ${COUNT}"
+	echo "Directories: ${COUNTD}"
+	echo "      Files: ${COUNTF}"
+	echo "Unspecified: ${COUNTU}"
 }
-index
+while [ $FILEPATH -neq "q" || $FILEPATH -neq "Q"]
+do
+	index
+done
+
 if [ "$?" -eq "0" ]; then
 	exit 0
 else
