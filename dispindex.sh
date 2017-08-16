@@ -1,20 +1,29 @@
 #!/bin/bash
 
-# A small script to display directory contents
+# A simple script to display directory contents
 # Dimitrios Gravanis, 2017
 # input:	user-specified path
 # output:	path contents
 
 function index() {
-	read -p "Directory path (or q to quit): " FILEPATH
-	echo "CONTENTS"
+	read -p "directory path (q to quit): " FILEPATH
+	if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
+		echo "--stopped--"
+		return 1
+	fi
+
 	cd $FILEPATH
+	while [ "$?" -ne "0" ]; do
+		read -p "re-enter path (q to quit): " FILEPATH
+		cd $FILEPATH
+	done
+			
 	local COUNTF=0
 	local COUNTD=0
 	local COUNTU=0
 	local COUNT=0
 	local FILES=$(ls)
-	
+		
 	for FILE in $FILES
 	do
 		if [ -d $FILE ]; then
@@ -26,19 +35,21 @@ function index() {
 		fi
 		((COUNT++))
 	done
-	
-	echo "Total items: ${COUNT}"
-	echo "Directories: ${COUNTD}"
-	echo "      Files: ${COUNTF}"
-	echo "Unspecified: ${COUNTU}"
+	echo "CONTENTS"
+	echo "--------"
+	echo "total items: ${COUNT}"
+	echo "directories: ${COUNTD}"
+	echo "      files: ${COUNTF}"
+	echo "unspecified: ${COUNTU}"
+	echo "--------"
+	return 0
 }
-while [ $FILEPATH -neq "q" || $FILEPATH -neq "Q"]
+
+while [ true ]
 do
 	index
+	if [ "$?" -ne "0" ]; then
+		break
+		exit 1
+	fi
 done
-
-if [ "$?" -eq "0" ]; then
-	exit 0
-else
-	exit 1
-fi
