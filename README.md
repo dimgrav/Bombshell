@@ -1,4 +1,4 @@
-# shell-scripts
+# Bombshell
 ## Collection of Shell scripts for BASH
 
 This project is intended to become a solid library of useful Shell scripts for 
