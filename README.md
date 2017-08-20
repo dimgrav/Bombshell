@@ -7,7 +7,7 @@ quicken repetitive tasks that Linux users perform daily.
 
 ### Script list
 
-*	dispindex:	a simple script to display directory contents
+*	dispindex:	a simple script to display grouped totals of directory contents
 
 ## Running scripts from any location via terminal
 
