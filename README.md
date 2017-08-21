@@ -21,9 +21,10 @@ To do so:
 3.	Add the following line at the end of .bashrc: `export PATH=~/scripts:$PATH`
 4.	Restart your user session (reboot or log out and in again)
 
-Make sure you have made the scripts **executable** (`$ chmod u+x <script>`)!
+Make sure you have set the script as **executable** for your user account!
+(`$ chmod u+x <script>`)
 
-To verify that you have execute permissions on the script, run `$ ls -l <script>`, 
+To verify that you have x-ecute permissions on the script, run `$ ls -l <script>`, 
 the permissions format should look like the bold characters in the line below:
 
 **-rwx**`rw-r-- 1 username users 2048 Jul 6 12:56 script.sh`
