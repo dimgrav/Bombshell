@@ -16,8 +16,14 @@ add the script's directory path to the $PATH environment variable of your OS.
 
 To do so:
 
-1.	Create a directory to store custom shell scripts (e.g. `$ mkdir ~/scripts`)
-2.	Open ~/.profile with a text editor, e.g. NANO (`$ nano ~/.profile`)
+1.	Create a directory to store custom shell scripts, for example:
+```
+$ mkdir ~/scripts
+```
+2.	Open ~/.profile with a text editor, e.g. NANO:
+```
+$ nano ~/.profile
+```
 3.	Add the following lines at the end of .profile:
 ```
 PATH=~/scripts:$PATH
@@ -26,7 +32,9 @@ export PATH
 4.	Restart your user session (reboot or log out and in again)
 
 Make sure you have set the script as **executable** for your user account!
-(`$ chmod u+x <script>`)
+```
+$ chmod u+x <script>
+```
 
 To verify that you have x-ecute permissions on the script, run `$ ls -l <script>`, 
 the permissions format should look like the bold characters in the line below:
