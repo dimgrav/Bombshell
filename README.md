@@ -8,6 +8,7 @@ quicken repetitive tasks that Linux users perform daily.
 ### Script list
 
 *	dispindex:	a simple script to display grouped totals of directory contents
+* copier: easily copy entire folder contents recursively and interactively
 
 ## Running scripts from any location via terminal
 
