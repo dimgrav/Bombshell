@@ -1,4 +1,4 @@
-# copier: A simple script to display directory contents
+# copier: A simple script to copy entire directory contents
 #
 # Copyright 2017 (c) Dimitrios Gravanis
 #
