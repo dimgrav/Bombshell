@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # input:	user-specified path
-# output:	user-specified path
+# output:	source path contents
 
 #!/bin/bash
 
