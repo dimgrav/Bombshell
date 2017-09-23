@@ -8,7 +8,7 @@ quicken repetitive tasks that Linux users perform daily.
 ### Script list
 
 *	dispindex:	a simple script to display grouped totals of directory contents
-* copier: easily copy entire folder contents recursively and interactively
+*	copier: easily copy entire folder contents recursively and interactively
 
 ## Running scripts from any location via terminal
 
@@ -44,3 +44,5 @@ the permissions format should look like the bold characters in the line below:
 
 *Understanding permissions is ***vital*** in scripting, make sure you don't give x 
 permission to the wrong user or usergroup on your system!*
+
+*It is highly recommended that you use these tools for managing tasks that ***do not*** require sudo privileges.*
