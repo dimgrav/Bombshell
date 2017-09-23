@@ -21,24 +21,29 @@
 #!/bin/bash
 
 function index() {
+	# check input
 	read -p "directory path (q to quit): " FILEPATH
-	if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
-		echo "--stopped--"
-		return 1
-	fi
-
-	cd $FILEPATH
+	cd $FILEPATH > /dev/null 2>&1
 	while [ "$?" -ne "0" ]; do
-		read -p "re-enter path (q to quit): " FILEPATH
-		cd $FILEPATH
+		if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
+			echo "--stopped--"
+			return 1
+		else
+			read -p "re-enter path (q to quit): " FILEPATH
+		fi
+		cd $FILEPATH > /dev/null 2>&1
 	done
 			
+	# remove whitespace to get proper counts
+	find -name "* *" -type d | rename 's/ /_/g'
+	find -name "* *" -type f | rename 's/ /_/g'
+	# count content types
 	local COUNTF=0
 	local COUNTD=0
 	local COUNTU=0
 	local COUNT=0
 	local FILES=$(ls)
-		
+
 	for FILE in $FILES
 	do
 		if [ -d $FILE ]; then
@@ -50,6 +55,11 @@ function index() {
 		fi
 		((COUNT++))
 	done
+	# restore whitespace
+	find -name "*_*" -type d | rename 's/_/ /g'
+	find -name "*_*" -type f | rename 's/_/ /g'
+
+	# show contents
 	echo "CONTENTS"
 	echo "--------"
 	echo "total items: ${COUNT}"
