@@ -21,8 +21,9 @@
 #!/bin/bash
 
 function copier() {
-	# check directory path input
-	read -p "path to files to be copied (q to quit): " FILEPATHSRC
+	### check input ###	
+	# source directory
+	read -p "path to file source directory (q to quit): " FILEPATHSRC
 	if [[ "$FILEPATHSRC" = "q" || "$FILEPATHSRC" = "Q" ]]; then
 		echo "--stopped--"
 		return 1
@@ -33,31 +34,41 @@ function copier() {
 		read -p "re-enter a valid path (q to quit): " FILEPATHSRC
 		cd $FILEPATHSRC
 	done
-
-	read -p "path to destination directory: " FILEPATHDST
+	# target directory
+	read -p "path to file destination directory (q to quit): " FILEPATHDST
 	if [[ "$FILEPATHDST" = "q" || "$FILEPATHDST" = "Q" ]]; then
 		echo "--stopped--"
 		return 1
 	fi
-	
-	cd $FILEPATHDST
+	cd $FILEPATHDST > /dev/null 2>&1
 	while [[ "$?" -ne "0" ]]; do
-		read -p "re-enter a valid path (q to quit): " FILEPATHDST
-		cd $FILEPATHDST
+		if [[ ! -e $FILEPATHDST ]]; then
+			mkdir -p $FILEPATHDST
+		elif [[ ! -d $FILEPATHDST ]]; then
+			echo "non-directory item exists at the given path!"
+			read -p "re-enter a valid path (q to quit): " FILEPATHDST
+		fi
+		cd $FILEPATHDST > /dev/null 2>&1
 	done
-	
+
+	### copy process ###
 	# create file list
 	cd $FILEPATHSRC
+	# remove whitespace from filenames in src dir
+	find -name "* *" -type d | rename 's/ /_/g'
+	find -name "* *" -type f | rename 's/ /_/g'
+	# copy files
 	local FILES=$(ls)
-
 	for FILE in $FILES; do
-
-		# rename dirs/files to remove whitespace
-		find -name "* *" -type d | rename 's/ /_/g'
-		find -name "* *" -type f | rename 's/ /_/g'
-
 		cp -R $FILE $FILEPATHDST
 	done
+	# restore whitespace in filenames in src dir
+	find -name "*_*" -type d | rename 's/_/ /g'
+	find -name "*_*" -type f | rename 's/_/ /g'
+	# restore whitespace in filenames in dst dir
+	cd $FILEPATHDST
+	find -name "*_*" -type d | rename 's/_/ /g'
+	find -name "*_*" -type f | rename 's/_/ /g'
 
 	return 0
 }
