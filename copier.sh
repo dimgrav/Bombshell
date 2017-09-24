@@ -29,10 +29,10 @@ function copier() {
 		return 1
 	fi
 
-	cd $FILEPATHSRC
+	cd $FILEPATHSRC > /dev/null 2>&1
 	while [[ "$?" -ne "0" ]]; do
 		read -p "re-enter a valid path (q to quit): " FILEPATHSRC
-		cd $FILEPATHSRC
+		cd $FILEPATHSRC > /dev/null 2>&1
 	done
 	# target directory
 	read -p "path to file destination directory (q to quit): " FILEPATHDST
@@ -70,6 +70,7 @@ function copier() {
 	find -name "*_*" -type d | rename 's/_/ /g'
 	find -name "*_*" -type f | rename 's/_/ /g'
 
+	echo "--done--"
 	return 0
 }
 
