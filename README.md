@@ -8,8 +8,11 @@ quicken repetitive tasks that Linux users perform daily.
 ### Script list
 
 1.	dispcont:	a simple script to display grouped totals of directory contents
-  * ./dispcont.sh: display visible directory contents
-  * ./dispcont.sh --hidden: display all directory contents
+
+`$ ./dispcont.sh`: display visible directory contents
+
+`$ ./dispcont.sh --hidden`: display all directory contents
+
 2.	copier: easily copy entire folder contents recursively and interactively
 
 ## Running scripts from any location via terminal
