@@ -26,40 +26,49 @@ declare FILEPATHDST
 function setpaths() {
 	# source directory
 	read -p "path to file source directory (q to quit): " FILEPATHSRC
-	if [[ "$FILEPATHSRC" = "q" || "$FILEPATHSRC" = "Q" ]]; then
-		echo "--stopped--"
-		return 1
-	fi
-
 	cd $FILEPATHSRC > /dev/null 2>&1
 	while [[ "$?" -ne "0" ]]; do
-		read -p "re-enter a valid path (q to quit): " FILEPATHSRC
-		cd $FILEPATHSRC > /dev/null 2>&1
+		if [[ "$FILEPATHSRC" = "q" || "$FILEPATHSRC" = "Q" ]]; then
+			echo "--stopped--"
+			return 1
+		else
+			echo "--invalid source path--"
+			read -p "re-enter a valid path (q to quit): " FILEPATHSRC
+			cd $FILEPATHSRC > /dev/null 2>&1
+		fi
 	done
+	
 	# target directory
-	read -p "path to file destination directory (q to quit): " FILEPATHDST
-	if [[ "$FILEPATHDST" = "q" || "$FILEPATHDST" = "Q" ]]; then
-		echo "--stopped--"
-		return 1
-	fi
+	read -p "path to file destination directory (q to quit): " FILEPATHDST	
 	cd $FILEPATHDST > /dev/null 2>&1
 	while [[ "$?" -ne "0" ]]; do
+		if [[ "$FILEPATHDST" = "q" || "$FILEPATHDST" = "Q" ]]; then
+		echo "--stopped--"
+		return 1
+		fi
+		
 		if [[ ! -e $FILEPATHDST ]]; then
 			mkdir -p $FILEPATHDST
 		elif [[ ! -d $FILEPATHDST ]]; then
-			echo "non-directory item exists at the given path!"
+			echo "--non-directory item exists at the given path--"
 			read -p "re-enter a valid path (q to quit): " FILEPATHDST
+			cd $FILEPATHDST > /dev/null 2>&1
 		fi
-		cd $FILEPATHDST > /dev/null 2>&1
 	done
+
+	# return to source path
+	cd $FILEPATHSRC
 
 	return 0
 }
 
 function copier() {
 	# copy files
-	for ITEM in `find . -name "* *"`; do
-		cp -R $ITEM $FILEPATHDST
+	for ITEM in `find .`
+	do
+		if [[ -e $ITEM ]]; then
+			cp -R $ITEM $FILEPATHDST
+		fi
 	done
 	
 	echo "--done--"
