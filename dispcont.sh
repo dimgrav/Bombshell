@@ -25,6 +25,7 @@ declare FILES
 
 COUNTF=0
 COUNTD=0
+COUNTSYM=0
 COUNTU=0
 COUNT=0
 
@@ -59,6 +60,8 @@ function counter() {
 			((COUNTD++))
 		elif [ -f $FILE ]; then
 			((COUNTF++))
+		elif [ -L $FILE ]; then
+			((COUNTSYM++))
 		else
 			((COUNTU++))
 		fi
@@ -76,6 +79,7 @@ function display() {
 	echo "total items: ${COUNT}"
 	echo "directories: ${COUNTD}"
 	echo "      files: ${COUNTF}"
+	echo "   symlinks: ${COUNTSYM}"
 	echo "unspecified: ${COUNTU}"
 	echo "------------------------"
 
