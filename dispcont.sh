@@ -21,6 +21,7 @@
 
 
 OPT="$1"
+INPATH="${@: -1}" # The last argument
 declare FILES
 
 COUNTF=0
@@ -31,8 +32,14 @@ COUNT=0
 
 function inpath() {
 	# check input
-	read -p "directory path (q to quit): " FILEPATH
+	if [ "$INPATH" != --* ]; then
+		FILEPATH=$INPATH
+	else
+		read -p "directory path (q to quit): " FILEPATH
+	fi
+
 	cd $FILEPATH > /dev/null 2>&1
+
 	while [ "$?" -ne "0" ]; do
 		if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
 			echo "--stopped--"
@@ -86,12 +93,11 @@ function display() {
 	return 0
 }
 
-while [ true ]; do
-	inpath
-	if [ "$?" -ne "0" ]; then
-		break
-		exit 1
-	fi
-	counter
-	display
-done
+
+inpath
+if [ "$?" -ne "0" ]; then
+	break
+	exit 1
+fi
+counter
+display
