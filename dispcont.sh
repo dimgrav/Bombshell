@@ -1,3 +1,4 @@
+#!/bin/bash
 # dispcont: A simple script to display directory contents
 #
 # Copyright 2017 (c) Dimitrios Gravanis
@@ -18,20 +19,27 @@
 # input:	user-specified path
 # output:	path contents
 
-#!/bin/bash
 
 OPT="$1"
+INPATH="${@: -1}" # The last argument
 declare FILES
 
 COUNTF=0
 COUNTD=0
+COUNTSYM=0
 COUNTU=0
 COUNT=0
 
 function inpath() {
 	# check input
-	read -p "directory path (q to quit): " FILEPATH
+	if [ "$INPATH" != --* ]; then
+		FILEPATH=$INPATH
+	else
+		read -p "directory path (q to quit): " FILEPATH
+	fi
+
 	cd $FILEPATH > /dev/null 2>&1
+
 	while [ "$?" -ne "0" ]; do
 		if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
 			echo "--stopped--"
@@ -59,6 +67,8 @@ function counter() {
 			((COUNTD++))
 		elif [ -f $FILE ]; then
 			((COUNTF++))
+		elif [ -L $FILE ]; then
+			((COUNTSYM++))
 		else
 			((COUNTU++))
 		fi
@@ -76,18 +86,18 @@ function display() {
 	echo "total items: ${COUNT}"
 	echo "directories: ${COUNTD}"
 	echo "      files: ${COUNTF}"
+	echo "   symlinks: ${COUNTSYM}"
 	echo "unspecified: ${COUNTU}"
 	echo "------------------------"
 
 	return 0
 }
 
-while [ true ]; do
-	inpath
-	if [ "$?" -ne "0" ]; then
-		break
-		exit 1
-	fi
-	counter
-	display
-done
+
+inpath
+if [ "$?" -ne "0" ]; then
+	break
+	exit 1
+fi
+counter
+display
