@@ -1,3 +1,4 @@
+#!/bin/bash
 # dispcont: A simple script to display directory contents
 #
 # Copyright 2017 (c) Dimitrios Gravanis
@@ -18,7 +19,6 @@
 # input:	user-specified path
 # output:	path contents
 
-#!/bin/bash
 
 OPT="$1"
 declare FILES
