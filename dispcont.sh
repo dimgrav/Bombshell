@@ -83,6 +83,9 @@ function counter() {
 		if [ -d "${FILE_DIRECTORY}" ]; then
 			if [ "${FILE}" != "." ]  && [ "${FILE}" != ".." ]; then
                 ((COUNTD++))
+                if [ "$RECURSIVE" == true ]; then
+                    counter "${FILE_DIRECTORY}"
+                fi
             fi
 		elif [ -f "${FILE_DIRECTORY}" ]; then
 			((COUNTF++))
