@@ -21,6 +21,7 @@
 
 
 SHOW_HIDDEN=false
+RECURSIVE=false
 INPATH="${@: -1}" # The last argument
 declare FILES
 
@@ -35,6 +36,8 @@ function parse_args() {
     do
         if [[ ${BASH_ARGV[$i]} = "--hidden" ]]; then
             SHOW_HIDDEN=true
+        elif [[ ${BASH_ARGV[$i]} = "--recursive" ]]; then
+            RECURSIVE=true
         fi
     done;
 }
@@ -47,7 +50,8 @@ function inpath() {
 		read -p "directory path (q to quit): " FILEPATH
 	fi
 
-	cd $FILEPATH > /dev/null 2>&1
+	# cd $FILEPATH > /dev/null 2>&1
+    INDIRECTORY="$( cd $FILEPATH > /dev/null 2>&1 && pwd )"
 
 	while [ "$?" -ne "0" ]; do
 		if [[ "$FILEPATH" = "q" || "$FILEPATH" = "Q" ]]; then
@@ -56,27 +60,31 @@ function inpath() {
 		else
 			read -p "re-enter path (q to quit): " FILEPATH
 		fi
-		cd $FILEPATH > /dev/null 2>&1
+		# cd $FILEPATH > /dev/null 2>&1
+        INDIRECTORY="$( cd $FILEPATH > /dev/null 2>&1 && pwd )"
 	done
 
 	return 0
 }
 
 function counter() {
+    local DIRECTORY=${1-$INDIRECTORY}
 	# check for hidden option
 	if [ "$SHOW_HIDDEN" == true ]; then
-		FILES=$(ls -1a)
+		FILES=$(ls -1a ${DIRECTORY})
 	else
-		FILES=$(ls -1)
+		FILES=$(ls -1 ${DIRECTORY})
 	fi
 	# index input path
 	for FILE in $FILES
 	do
-		if [ -d $FILE ]; then
+        local FILE_DIRECTORY="${DIRECTORY}/${FILE}"
+        echo "${FILE_DIRECTORY}"
+		if [ -d "${FILE_DIRECTORY}" ]; then
 			((COUNTD++))
-		elif [ -f $FILE ]; then
+		elif [ -f "${FILE_DIRECTORY}" ]; then
 			((COUNTF++))
-		elif [ -L $FILE ]; then
+		elif [ -L "${FILE_DIRECTORY}" ]; then
 			((COUNTSYM++))
 		else
 			((COUNTU++))
