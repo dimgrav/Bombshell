@@ -20,7 +20,7 @@
 # output:	path contents
 
 
-OPT="$1"
+SHOW_HIDDEN=false
 INPATH="${@: -1}" # The last argument
 declare FILES
 
@@ -29,6 +29,15 @@ COUNTD=0
 COUNTSYM=0
 COUNTU=0
 COUNT=0
+
+function parse_args() {
+    for (( i=1; i<=${#BASH_ARGV[@]}; i++ )); 
+    do
+        if [[ ${BASH_ARGV[$i]} = "--hidden" ]]; then
+            SHOW_HIDDEN=true
+        fi
+    done;
+}
 
 function inpath() {
 	# check input
@@ -55,7 +64,7 @@ function inpath() {
 
 function counter() {
 	# check for hidden option
-	if [ "$OPT" == "--hidden" ]; then
+	if [ "$SHOW_HIDDEN" == true ]; then
 		FILES=$(ls -1a)
 	else
 		FILES=$(ls -1)
@@ -94,6 +103,7 @@ function display() {
 }
 
 
+parse_args
 inpath
 if [ "$?" -ne "0" ]; then
 	break
