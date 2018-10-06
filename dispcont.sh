@@ -32,7 +32,7 @@ COUNTU=0
 COUNT=0
 
 function parse_args() {
-    for (( i=1; i<=${#BASH_ARGV[@]}; i++ )); 
+    for (( i=0; i<=${#BASH_ARGV[@]}; i++ )); 
     do
         if [[ ${BASH_ARGV[$i]} = "--hidden" ]]; then
             SHOW_HIDDEN=true
