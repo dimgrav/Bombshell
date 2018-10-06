@@ -9,9 +9,14 @@ quicken repetitive tasks that Linux users perform daily.
 
 1.	dispcont:	a simple interactive script to display grouped totals of directory contents
 
-`$ ./dispcont.sh`: display visible directory contents
+`$ ./dispcont.sh [option]`: display visible directory contents
 
-`$ ./dispcont.sh --hidden`: display all directory contents
+**Available options**
+
+| Option | Description |
+| - | - |
+| --hidden | Includes hidden files |
+| --recursive | Searches also in sub-directories |
 
 2.	easycp: easily copy entire folder contents recursively and interactively
 
