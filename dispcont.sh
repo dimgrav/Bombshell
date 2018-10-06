@@ -50,7 +50,6 @@ function inpath() {
 		read -p "directory path (q to quit): " FILEPATH
 	fi
 
-	# cd $FILEPATH > /dev/null 2>&1
     INDIRECTORY="$( cd $FILEPATH > /dev/null 2>&1 && pwd )"
 
 	while [ "$?" -ne "0" ]; do
@@ -60,7 +59,6 @@ function inpath() {
 		else
 			read -p "re-enter path (q to quit): " FILEPATH
 		fi
-		# cd $FILEPATH > /dev/null 2>&1
         INDIRECTORY="$( cd $FILEPATH > /dev/null 2>&1 && pwd )"
 	done
 
@@ -79,7 +77,6 @@ function counter() {
 	for FILE in $FILES
 	do
         local FILE_DIRECTORY="${DIRECTORY}/${FILE}"
-        echo "${FILE_DIRECTORY}"
 		if [ -d "${FILE_DIRECTORY}" ]; then
 			if [ "${FILE}" != "." ]  && [ "${FILE}" != ".." ]; then
                 ((COUNTD++))
