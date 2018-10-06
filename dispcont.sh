@@ -81,7 +81,9 @@ function counter() {
         local FILE_DIRECTORY="${DIRECTORY}/${FILE}"
         echo "${FILE_DIRECTORY}"
 		if [ -d "${FILE_DIRECTORY}" ]; then
-			((COUNTD++))
+			if [ "${FILE}" != "." ]  && [ "${FILE}" != ".." ]; then
+                ((COUNTD++))
+            fi
 		elif [ -f "${FILE_DIRECTORY}" ]; then
 			((COUNTF++))
 		elif [ -L "${FILE_DIRECTORY}" ]; then
